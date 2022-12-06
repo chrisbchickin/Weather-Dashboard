@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="dashboard">Weather Dashboard</header>
+    <div class="container">
+        <div class="search-container">
+            <div class="search-box">
+                <h3 class="card-header text-uppercase">Search city</h3>
+                <form id="user-form" class="card-body">
+                  <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                  <button type="submit" class="btn">Get city</button>
+                </form>
+            </div>
+            <div class="city-list"></div>
+        </div>
+        <div class="info-container">
+            <div class="city-conditions"></div>
+            <div class="forecast"></div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="Java.js"></script>
+</body>
+</html>
