@@ -22,7 +22,7 @@ var formSubmitHandler = function(event) {
     } 
     cityInputEl.value = '';
 }
-
+//calls api and creates weather conditions elements
 var getCityInfo = function(city) {
 
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
@@ -54,7 +54,7 @@ var getCityInfo = function(city) {
 
     })
 }
-
+//retrieves lattitude and longitude from api
 var getLatLon = function(city) {
 
 var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + APIKey;
@@ -70,7 +70,7 @@ var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limi
         }
     })
 }
-
+//creates 5 day forecast
 var getForcast = function(lon, lat) {
     var queryURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey
 
@@ -109,7 +109,7 @@ var getForcast = function(lon, lat) {
         }
     })
 }
-
+//creates buttons
 var createButton = function (city) {
     var cityButton = document.createElement('button');
     cityButton.textContent = city;
@@ -118,7 +118,7 @@ var createButton = function (city) {
     localStorage.setItem("city", city);
     var cityHistoryEl = document.querySelector('.city-button');
 }
-
+//to be continued :P
 var renderLastCity = function (event) {
     event.preventDefault();
     conditonsEl.innerHTML = '';
