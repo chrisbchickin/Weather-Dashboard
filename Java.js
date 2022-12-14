@@ -6,7 +6,6 @@ var userFormEl = document.querySelector('#user-form');
 var conditonsEl = document.querySelector('.city-conditions');
 var forecastEl = document.querySelector('.forecast');
 var cityHistory = document.querySelector('.city-list');
-var storedCity = localStorage.getItem("city");
 //starts functions on submit event
 var formSubmitHandler = function(event) {
     conditonsEl.innerHTML = '';
@@ -18,7 +17,7 @@ var formSubmitHandler = function(event) {
     if (city) {
         getCityInfo(city);
         getLatLon(city);
-        createButton(city);
+        updateRecentCities(city);
     } 
     cityInputEl.value = '';
 }
@@ -57,7 +56,7 @@ var getCityInfo = function(city) {
 //retrieves lattitude and longitude from api
 var getLatLon = function(city) {
 
-var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + APIKey;
+var queryURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + APIKey;
 
     fetch(queryURL)
     .then(function (response) {
@@ -72,7 +71,7 @@ var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limi
 }
 //creates 5 day forecast
 var getForcast = function(lon, lat) {
-    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey
 
     fetch(queryURL)
     .then(function (response) {
@@ -80,8 +79,8 @@ var getForcast = function(lon, lat) {
             response.json().then(function(data) {
                 console.log(data.list);
                 for (i = 0; i < data.list.length; i++) {
-                    var forecastItem = data.list[i].dt_txt;
-                    if (forecastItem.includes("15:00:00")) {
+                    var forecastDate = data.list[i].dt_txt;
+                    if (forecastDate.includes("15:00:00")) {
                         var date = document.createElement('div');
                         var icon = document.createElement('img');
                         var temp = document.createElement('div');
@@ -109,29 +108,55 @@ var getForcast = function(lon, lat) {
         }
     })
 }
-//creates buttons
-var createButton = function (city) {
-    var cityButton = document.createElement('button');
-    cityButton.textContent = city;
-    cityButton.setAttribute('class', 'city-button');
-    cityHistory.appendChild(cityButton);
-    localStorage.setItem("city", city);
-    var cityHistoryEl = document.querySelector('.city-button');
+
+var updateRecentCities = function (city) {
+    var recentCities = getRecentCities();
+    recentCities.push(city);
+    saveRecentCities(recentCities);
+    addRecentCityEl(city)
 }
-//to be continued :P
-var renderLastCity = function (event) {
-    event.preventDefault();
+
+var setUprecentCitiesEl = function () {
+    var recentCities = getRecentCities();
+    for (i = 0; i < recentCities.length; i++) {
+        var city = recentCities[i];
+        addRecentCityEl(city);
+      }
+}
+
+var addRecentCityEl = function (city) {
+    var button = document.createElement('button');
+    button.textContent = city;
+    cityHistory.insertBefore(button, cityHistory.children[0]);
+}
+
+var getRecentCities = function () {
+    var city;
+    var cityJSON = localStorage.getItem('city')
+    if (!cityJSON) {
+        city = [];
+      } else {
+        city = JSON.parse(cityJSON);
+      } 
+      return city;
+}
+
+var saveRecentCities = function (recentCities) {
+    localStorage.setItem('city', JSON.stringify(recentCities));
+}
+
+var searchCityByButton = function (event) {
+    event.preventDefault;
+
+    var cityButton = event.target.textContent;
     conditonsEl.innerHTML = '';
     forecastEl.innerHTML = '';
-    var city = localStorage.getItem("city")
-    getCityInfo(city);
-    getLatLon(city);
+    getCityInfo(cityButton);
+    getLatLon(cityButton);
 }
 
 
-
-
-
-
+setUprecentCitiesEl();
 userFormEl.addEventListener('submit', formSubmitHandler);
+cityHistory.addEventListener('click', searchCityByButton);
 
