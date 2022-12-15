@@ -1,6 +1,6 @@
 var APIKey = "203ae079c0deb3ae76efe4c30d420bc1";
 var city;
-var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 var cityInputEl = document.querySelector('#city');
 var userFormEl = document.querySelector('#user-form');
 var conditonsEl = document.querySelector('.city-conditions');
@@ -24,7 +24,7 @@ var formSubmitHandler = function(event) {
 //calls api and creates weather conditions elements
 var getCityInfo = function(city) {
 
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
     fetch(queryURL) 
     .then(function (response) {
