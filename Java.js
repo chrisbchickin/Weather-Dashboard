@@ -122,6 +122,7 @@ var setUprecentCitiesEl = function () {
         var city = recentCities[i];
         addRecentCityEl(city);
       }
+    console.log("setUprecentCitiesEl");
 }
 
 var addRecentCityEl = function (city) {
@@ -131,7 +132,7 @@ var addRecentCityEl = function (city) {
 }
 
 var getRecentCities = function () {
-    var city;
+    //var city;
     var cityJSON = localStorage.getItem('city')
     if (!cityJSON) {
         city = [];
@@ -139,6 +140,7 @@ var getRecentCities = function () {
         city = JSON.parse(cityJSON);
       } 
       return city;
+    console.log("getRecentCities");
 }
 
 var saveRecentCities = function (recentCities) {
